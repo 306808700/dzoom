@@ -1,4 +1,4 @@
-/*! dzoom.JS - v0.0.1 - 2015-03-02
+/*! dzoom.JS - v0.0.6 - 2015-03-02
  *
  * Copyright (c) 2015 ChangYuan Lin;
  * Licensed under the MIT license 
@@ -54,19 +54,48 @@ var dzoom = {
             newStyle = newStyle+"overflow:hidden;"
         }
 
-        void function set(){
-            dzoom.scale = window.innerWidth/320;
-            dzoom.styleRule.add(actionDom,newStyle.replace("{scale}",dzoom.scale));
-        }();
+        var w = parseInt(document.defaultView.getComputedStyle(document.body).width);
+        
+        if(w>=640){
+            dzoom.scale = 1;
+            newStyle=newStyle+"margin:auto;"
+        }else{
+            dzoom.scale = w/320;
 
+        }
+        dzoom.styleRule.add(actionDom,newStyle.replace("{scale}",dzoom.scale));
+       
+
+    },
+    fixed:function(){
+        try{
+            $.each($(".dzoom"),function(){
+                var dzoom = $(this).attr("dzoom");
+                var el = $(this);
+                switch(dzoom){
+                    case "fixed":
+                        $(function(){
+                            var height = el.children().height();
+                            el.height(height);
+                        });
+                    break;
+                }
+            });
+        }catch(e){
+
+        }
+        
     },
     init:function(){
         var evt = "onorientationchange" in window ? "orientationchange" : "resize";
+        dzoom.render();
+        dzoom.fixed();
         window.addEventListener(evt, function(a) { 
-            dzoom.render();
+            setTimeout(function(){
+                dzoom.render();
+                dzoom.fixed();
+            },400);
         }, false);
     }
 };
-
 dzoom.init();
-// default to running
