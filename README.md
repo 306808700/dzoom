@@ -24,7 +24,7 @@
 
 Introducing the steps in head.
 
->在head中引入脚本,在body后执行函数
+>在head中引入脚本就行了
   
       <head>
         ...
@@ -32,10 +32,6 @@ Introducing the steps in head.
       </head>
       
       <body></body>
-      
-      <script>
-        dzoom.render();
-      </script>
 
 The above method is global, you also can separate a node set to do,like this.
 
